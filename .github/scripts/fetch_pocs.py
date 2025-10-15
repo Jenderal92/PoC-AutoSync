@@ -6,7 +6,7 @@ import datetime
 BASE_DIR = "pocs"
 
 def main():
-    url = "https://poc-in-github.motikan2010.net/api/v1/?limit=30"
+    url = "https://poc-in-github.motikan2010.net/api/v1/?per_page=30"
     print("[*] Fetching data from:", url)
     
     try:
@@ -36,6 +36,12 @@ def main():
     today = datetime.date.today().isoformat()
     output_file = os.path.join(year_dir, f"pocs_{today}.json")
 
+    # Cek duplikat: kalau file sudah ada, skip
+    if os.path.exists(output_file):
+        print("[=] File already exists, not recreated:", output_file)
+        return
+
+    # Simpan file baru
     with open(output_file, "w") as f:
         json.dump(data, f, indent=2)
 
