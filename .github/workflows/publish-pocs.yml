@@ -2,7 +2,7 @@ name: Fetch and Publish PoC-in-GitHub
 
 on:
   schedule:
-    - cron: '0 * * * *' # tiap jam
+    - cron: '0 * * * *' # Tiap jam
   workflow_dispatch:
 
 permissions:
