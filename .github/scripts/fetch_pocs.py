@@ -5,33 +5,38 @@ import datetime
 
 POCS_DIR = "pocs"
 
-# Ambil data dari situs API
-url = "https://poc-in-github.motikan2010.net/api/v1/?per_page=100"
-print("[*] Fetching data from:", url)
+def main():
+    url = "https://poc-in-github.motikan2010.net/api/v1/?per_page=30"
+    print("[*] Fetching data from:", url)
+    
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        data = response.json()
+    except Exception as e:
+        print("[-] Error fetching API:", e)
+        exit(1)
 
-response = requests.get(url)
-data = response.json()
+    for k in ('pocs', 'results', 'items'):
+        if k in data:
+            data = data[k]
+            break
 
-# Cek struktur data
-for k in ('pocs', 'results', 'items'):
-    if k in data:
-        data = data[k]
-        break
+    if not isinstance(data, list):
+        print("[-] Unexpected data structure:", type(data))
+        exit(1)
 
-if not isinstance(data, list):
-    print("[-] Unexpected data structure")
-    exit(1)
+    if not os.path.exists(POCS_DIR):
+        os.makedirs(POCS_DIR)
 
-# Buat folder output
-if not os.path.exists(POCS_DIR):
-    os.makedirs(POCS_DIR)
+    today = datetime.date.today().isoformat()
+    output_file = os.path.join(POCS_DIR, f"pocs_{today}.json")
 
-# Tulis setiap PoC ke file
-today = datetime.date.today().isoformat()
-output_file = os.path.join(POCS_DIR, f"pocs_{today}.json")
+    with open(output_file, "w") as f:
+        json.dump(data, f, indent=2)
 
-with open(output_file, "w") as f:
-    json.dump(data, f, indent=2)
+    print("[+] Saved:", output_file)
+    print("[+] Total entries:", len(data))
 
-print("[+] Saved:", output_file)
-print("[+] Total entries:", len(data))
+if __name__ == "__main__":
+    main()
