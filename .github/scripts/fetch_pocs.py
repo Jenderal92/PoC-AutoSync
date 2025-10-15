@@ -3,10 +3,10 @@ import requests
 import json
 import datetime
 
-POCS_DIR = "pocs"
+BASE_DIR = "pocs"
 
 def main():
-    url = "https://poc-in-github.motikan2010.net/api/v1/?per_page=30"
+    url = "https://poc-in-github.motikan2010.net/api/v1/?limit=30"
     print("[*] Fetching data from:", url)
     
     try:
@@ -17,6 +17,7 @@ def main():
         print("[-] Error fetching API:", e)
         exit(1)
 
+    # Adapt struktur JSON
     for k in ('pocs', 'results', 'items'):
         if k in data:
             data = data[k]
@@ -26,11 +27,14 @@ def main():
         print("[-] Unexpected data structure:", type(data))
         exit(1)
 
-    if not os.path.exists(POCS_DIR):
-        os.makedirs(POCS_DIR)
+    # Buat folder berdasarkan tahun
+    year = str(datetime.date.today().year)
+    year_dir = os.path.join(BASE_DIR, year)
+    if not os.path.exists(year_dir):
+        os.makedirs(year_dir)
 
     today = datetime.date.today().isoformat()
-    output_file = os.path.join(POCS_DIR, f"pocs_{today}.json")
+    output_file = os.path.join(year_dir, f"pocs_{today}.json")
 
     with open(output_file, "w") as f:
         json.dump(data, f, indent=2)
