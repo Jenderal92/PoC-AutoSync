@@ -41,3 +41,8 @@ Each file contains metadata such as CVE ID, repository link, stars, and descript
 
 ## 📜 License
 MIT License
+
+## ⚠️ Disclaimer
+This repository was created **for security research and educational purposes only**.
+
+More Disclaimer You Can see the disclaimer on the cover of Jenderal92. You can check it [HERE !!!](https://github.com/Jenderal92/)
