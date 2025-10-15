@@ -2,8 +2,12 @@ name: Fetch and Publish PoC-in-GitHub
 
 on:
   schedule:
-    - cron: '0 * * * *'
-  workflow_dispatch: {}
+    - cron: '0 * * * *' # tiap jam
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   fetch-and-pr:
@@ -11,34 +15,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.x'
 
-      - name: Install requirements
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests
+      - name: Install dependencies
+        run: pip install requests
 
       - name: Run fetch script
-        env:
-          API_BASE: https://poc-in-github.motikan2010.net/api/v1/
-          POCS_DIR: pocs
-          LIMIT: 200
-        run: |
-          mkdir -p $POCS_DIR
-          python .github/scripts/fetch_pocs.py
+        run: python .github/scripts/fetch_pocs.py
 
-      - name: Create pull request for new PoCs
+      - name: Commit and create PR
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Add new PoC(s) from poc-in-github"
           branch: add/pocs-${{ github.run_id }}
-          title: "Add new PoC(s) from poc-in-github"
-          body: "This PR adds new PoC entries fetched from poc-in-github.motikan2010.net."
-          labels: PoC, automated
+          title: "Auto Update PoCs - ${{ github.run_id }}"
+          commit-message: "Auto Update PoCs"
+          body: "This PR adds new PoCs fetched from poc-in-github."
