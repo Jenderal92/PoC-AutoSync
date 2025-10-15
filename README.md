@@ -1,4 +1,4 @@
-# 🧠 PoC-AutoSync
+# 🧠 PoC-AutoSync-Github
 
 Automatically collects public Proof-of-Concept (PoC) exploits from poc-in-github.motikan2010.net and keeps the database up to date with automatic updates. Use responsibly — for research and defensive purposes only.
 
