@@ -35,7 +35,7 @@ Each file contains metadata such as CVE ID, repository link, stars, and descript
 ## 🧩 Credits
 - Data Source: [poc-in-github.motikan2010.net](https://poc-in-github.motikan2010.net)
 - Inspired by: [nomi-sec/PoC-in-GitHub](https://github.com/nomi-sec/PoC-in-GitHub)
-- Maintainer: [@your-github-username](https://github.com/Jenderal92)
+- Maintainer: [@Jenderal92](https://github.com/Jenderal92)
 
 ---
 
