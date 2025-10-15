@@ -2,8 +2,8 @@ name: Fetch and Publish PoC-in-GitHub
 
 on:
   schedule:
-    - cron: '0 * * * *' # Tiap jam
-  workflow_dispatch:
+    - cron: '0 * * * *'   
+  workflow_dispatch:      
 
 permissions:
   contents: write
@@ -12,6 +12,7 @@ permissions:
 jobs:
   fetch-and-pr:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,4 +35,9 @@ jobs:
           branch: add/pocs-${{ github.run_id }}
           title: "Auto Update PoCs - ${{ github.run_id }}"
           commit-message: "Auto Update PoCs"
-          body: "This PR adds new PoCs fetched from poc-in-github."
+          body: |
+            Automated update from https://poc-in-github.motikan2010.net  
+            Generated at: ${{ github.run_id }}
+          labels: |
+            automation
+            poc-update
