@@ -1,0 +1,44 @@
+name: Fetch and Publish PoC-in-GitHub
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  fetch-and-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run fetch script
+        env:
+          API_BASE: https://poc-in-github.motikan2010.net/api/v1/
+          POCS_DIR: pocs
+          LIMIT: 200
+        run: |
+          mkdir -p $POCS_DIR
+          python .github/scripts/fetch_pocs.py
+
+      - name: Create pull request for new PoCs
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add new PoC(s) from poc-in-github"
+          branch: add/pocs-${{ github.run_id }}
+          title: "Add new PoC(s) from poc-in-github"
+          body: "This PR adds new PoC entries fetched from poc-in-github.motikan2010.net."
+          labels: PoC, automated
