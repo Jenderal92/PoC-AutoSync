@@ -21,14 +21,11 @@ Each file contains metadata such as CVE ID, repository link, stars, and descript
 
 1. Fetches the latest PoC list from `https://poc-in-github.motikan2010.net/api/v1/`.
 2. Compares existing files in `/pocs/`.
-3. Creates new `.md` files for PoCs that are not yet included.
-4. Opens a Pull Request with all new PoCs.
 
 ---
 
 ## 📅 Update Schedule
 - Automatically runs **every hour** via GitHub Actions.
-- You can manually trigger updates under the “Actions” tab.
 
 ---
 
@@ -38,9 +35,6 @@ Each file contains metadata such as CVE ID, repository link, stars, and descript
 - Maintainer: [@Jenderal92](https://github.com/Jenderal92)
 
 ---
-
-## 📜 License
-MIT License
 
 ## ⚠️ Disclaimer
 This repository was created **for security research and educational purposes only**.
